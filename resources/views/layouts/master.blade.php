@@ -8,7 +8,6 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://use.fontawesome.com/415f190962.js"></script>
     <link rel="stylesheet" href="{{ URL::to('src/css/app.css') }}">
-
     @yield('styles')
 </head>
 <body>
@@ -16,7 +15,6 @@
     <div class="container">
         @yield('content')
     </div>
-
     <script src="https://code.jquery.com/jquery-3.2.0.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
