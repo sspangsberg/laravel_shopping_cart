@@ -39,8 +39,7 @@ class ProductController extends Controller
 
     public function getCart()
     {
-        if (!Session::has('cart'))
-        {
+        if (!Session::has('cart')) {
             return view('shop.shopping-cart', ['products' => null]);
         }
         $oldCart = Session::get('cart');
@@ -51,8 +50,7 @@ class ProductController extends Controller
 
     public function getCheckout()
     {
-        if (!Session::has('cart'))
-        {
+        if (!Session::has('cart')) {
             return view('shop.shopping-cart');
         }
         $oldCart = Session::get('cart');
@@ -64,8 +62,7 @@ class ProductController extends Controller
 
     public function postCheckout(Request $request)
     {
-        if (!Session::has('cart'))
-        {
+        if (!Session::has('cart')) {
             return redirect()->route('shop.shopping-cart');
         }
         $oldCart = Session::get('cart');
@@ -90,12 +87,41 @@ class ProductController extends Controller
 
             Auth::user()->orders()->save($order);
 
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->route('checkout')->with('error', $e->getMessage());
         }
 
         Session::forget('cart');
-        return redirect()->route('product.index')->with('success','Successfully purchased products!');
+        return redirect()->route('product.index')->with('success', 'Successfully purchased products!');
+    }
+
+    public function getReduceByOne($id)
+    {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->reduceByOne($id);
+
+        if (count($cart->items) > 0) {
+            Session::put('cart', $cart);
+        } else {
+            Session::forget('cart');
+        }
+
+        return redirect()->route('product.shopping-cart');
+    }
+
+    public function getRemoveItem($id)
+    {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+
+        if (count($cart->items) > 0) {
+            Session::put('cart', $cart);
+        } else {
+            Session::forget('cart');
+        }
+
+        return redirect()->route('product.shopping-cart');
     }
 }

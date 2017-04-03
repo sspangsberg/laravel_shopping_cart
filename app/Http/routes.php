@@ -38,6 +38,16 @@ Route::post('/checkout', [
     'middleware' => 'auth'
 ]);
 
+Route::get('/reduce/{id}', [
+    'uses' => 'ProductController@getReduceByOne',
+    'as' => 'product.reduceByOne'
+]);
+
+Route::get('/remove/{id}', [
+    'uses' => 'ProductController@getRemoveItem',
+    'as' => 'product.removeItem'
+]);
+
 
 Route::group(['prefix' => 'user'], function() {
     Route::group(['middleware' => 'guest'], function() {

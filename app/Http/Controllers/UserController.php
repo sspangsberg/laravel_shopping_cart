@@ -30,8 +30,7 @@ class UserController extends Controller
 
         Auth::login($user);
 
-        if (Session::has('oldUrl'))
-        {
+        if (Session::has('oldUrl')) {
             $oldUrl = Session::get('oldUrl');
             Session::forget('oldUrl');
 
@@ -53,10 +52,8 @@ class UserController extends Controller
             'password' => 'required|min:4'
         ]);
 
-        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]))
-        {
-            if (Session::has('oldUrl'))
-            {
+        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
+            if (Session::has('oldUrl')) {
                 $oldUrl = Session::get('oldUrl');
                 Session::forget('oldUrl');
 
@@ -70,7 +67,12 @@ class UserController extends Controller
 
     public function getProfile()
     {
-        return view('user.profile');
+        $orders = Auth::user()->orders;
+        $orders->transform(function ($order, $key) {
+            $order->cart = unserialize($order->cart);
+            return $order;
+        });
+        return view('user.profile', ['orders' => $orders]);
     }
 
     public function getLogout()
